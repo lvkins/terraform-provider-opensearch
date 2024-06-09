@@ -1,0 +1,6 @@
+version: 3
+tasks:
+  build:
+    cmds:
+      - GOOS=darwin GOARCH=arm64 go build
+      - cp terraform-provider-opensearch $HOME/.terraform.d/plugins/opensearch.org/opensearchprovider/opensearch/1.0.0/darwin_arm64/terraform-provider-opensearch
