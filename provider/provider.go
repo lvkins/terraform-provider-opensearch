@@ -246,6 +246,8 @@ func Provider() *schema.Provider {
 			"opensearch_channel_configuration":     resourceOpenSearchChannelConfiguration(),
 			"opensearch_anomaly_detection":         resourceOpenSearchAnomalyDetection(),
 			"opensearch_sm_policy":                 resourceOpenSearchSMPolicy(),
+			"opensearch_sa_detector":               resourceOpenSearchSaDetector(),
+			"opensearch_sa_custom_rule":            resourceOpenSearchSaDetectorRule(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{

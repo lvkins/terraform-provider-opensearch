@@ -3,6 +3,7 @@ package provider
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"hash/crc32"
 	"log"
@@ -145,6 +146,24 @@ func normalizedIndexSettings(settings map[string]interface{}) map[string]interfa
 
 func normalizeAnomalyDetection(tpl map[string]interface{}) {
 	delete(tpl, "last_update_time")
+}
+
+func normalizeSaDetector(tpl map[string]interface{}) {
+	delete(tpl, "type")
+	delete(tpl, "last_update_time")
+	delete(tpl, "enabled_time")
+	delete(tpl, "threat_intel_enabled")
+
+	// search metadata
+	delete(tpl, "alert_history_index")
+	delete(tpl, "alert_history_index_pattern")
+	delete(tpl, "alert_index")
+	delete(tpl, "findings_index")
+	delete(tpl, "findings_index_pattern")
+	delete(tpl, "monitor_id")
+	delete(tpl, "rule_topic_index")
+	delete(tpl, "workflow_ids")
+	delete(tpl, "bucket_monitor_id_rule_id")
 }
 
 func flattenMap(m map[string]interface{}) map[string]interface{} {
@@ -467,4 +486,17 @@ func readPathOrContent(poc string) (string, bool, error) {
 	}
 
 	return poc, false, nil
+}
+
+type querySearchResult struct {
+	Hits struct {
+		Total struct {
+			Value int `json:"value"`
+		} `json:"total"`
+		Hits []struct {
+			Version int             `json:"_version"`
+			ID      string          `json:"_id"`
+			Source  json.RawMessage `json:"_source"`
+		} `json:"hits"`
+	} `json:"hits"`
 }
