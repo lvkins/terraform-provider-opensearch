@@ -13,6 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/mitchellh/go-homedir"
+	elastic7 "github.com/olivere/elastic/v7"
 )
 
 func normalizeChannelConfiguration(tpl map[string]interface{}) {
@@ -486,6 +487,18 @@ func readPathOrContent(poc string) (string, bool, error) {
 	}
 
 	return poc, false, nil
+}
+
+// Checks if the error indicates that a search result was not found.
+// This function is necessary because the search endpoint may not provide an error
+// that is directly compatible with elastic7.IsNotFound. It handles both ElasticSearch's
+// standard "not found" error and a custom error message from OpenSearch that indicates
+// "no search results found for ID:".
+func IsSearchNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	return elastic7.IsNotFound(err) || strings.Contains(err.Error(), "no search results found for ID:")
 }
 
 type querySearchResult struct {

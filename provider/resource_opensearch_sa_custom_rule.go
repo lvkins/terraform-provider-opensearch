@@ -60,13 +60,13 @@ func resourceOpensearchSaDetectorRuleCreate(d *schema.ResourceData, m interface{
 func resourceOpensearchSaDetectorRuleRead(d *schema.ResourceData, m interface{}) error {
 	res, err := resourceOpensearchSaDetectorRuleGet(d.Id(), m)
 
-	if elastic7.IsNotFound(err) {
-		log.Printf("[WARN] Security Analytics Detector Rule (%s) not found, removing from state", d.Id())
-		d.SetId("")
-		return nil
-	}
-
 	if err != nil {
+		if IsSearchNotFound(err) {
+			log.Printf("[WARN] Security Analytics Detector Rule (%s) not found, removing from state", d.Id())
+			d.SetId("")
+			return nil
+		}
+
 		return err
 	}
 
