@@ -7,7 +7,6 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/olivere/elastic/uritemplates"
 	elastic7 "github.com/olivere/elastic/v7"
 )
