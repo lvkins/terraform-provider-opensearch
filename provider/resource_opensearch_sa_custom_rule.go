@@ -22,10 +22,6 @@ var saDetectorRuleSchema = map[string]*schema.Schema{
 		Description: "A category of the detector rule",
 		Type:        schema.TypeString,
 		Required:    true,
-		ValidateFunc: validation.StringInSlice([]string{
-			"cloudtrail",
-			"windows",
-		}, true),
 	},
 }
 
